@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+{{#isOwner}}
+<form action="editEntertainment" method="post">
+    <input type="hidden" name="id" value="{{id}}"/>
+    <input type="text" placeholder="Eneter New Attraction" name="entertainmentName"/>
+    <select name="entertainmentType">
+
+        <option value="Band">Band</option>
+
+        <option value="Inflatable">Inflatable</option>
+
+        <option value="Zorbs">Zorbs</option>
+
+        <option value="Paint Ball">Paint Ball</option>
+
+        <option value="Catering">Catering</option>
+
+        <option value="Sky Diving">Sky Diving</option>
+
+        <option value="Drifting">Drifting</option>
+
+        <option value="Speed Golfing">Speed Golfing</option>
+
+        <option value="Free Climbing">Free Climbing</option>
+
+        <option value="Other">Other</option>
+    </select>
+    <input type="number" placeholder="$ Price" name="entertainmentPrice"/>
+    <button type="submit">Submit</button>
+</form>
+<form action="deleteEntertainment" method="post" style="display: inline;">
+    <input type="hidden" name="id" value="{{id}}"/>
+    <button type="submit">Delete</button>
+</form><br>
+
+<br><br><br>
+{{/isOwner}}
+
+{{^isOwner}}
+{{#entertainment}}
+<form action="editRating" method="post">
+    <input type="hidden" name="id" value="{{id}}">
+    <input type="radio" name="entertainmentRating" value="1">1
+    <input type="radio" name="entertainmentRating" value="2" >2
+    <input type="radio" name="entertainmentRating" value="3">3
+    <input type="radio" name="entertainmentRating" value="4">4
+    <input type="radio" name="entertainmentRating" value="5">5
+
+    <input type="text" placeholder="Comments" name="comment">
+    <button type="submit">Submit</button>
+</form>
+curent rating: {{rating}}<br>
+current comment: {{comment}}
+{{/entertainment}}
+{{/isOwner}}
+</body>
+</html>

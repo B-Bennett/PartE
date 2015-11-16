@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PartE</title>
+    <style>
+        body {
+        background-image: url("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQsMUk3Ohlgp4pV5KQgzqdtTJ0tsmruSt3-hKSvmV5DEM_uHBG7");
+        }
+
+        option.avatar {
+        background-repeat: no-repeat !important;
+        padding-center: 20px;
+        }
+
+        h2 {
+        margin: 90px 0 0 0
+        }
+
+        select {
+        width: 200px;
+        }
+
+    </style>
+</head>
+<body>
+<a href="/logout">Logout</a>
+<br><br>
+
+<form action="/" method="get">
+    <input type="text" placeholder="Search" name="search"/>
+    <button type="submit">Search</button>
+</form>
+<br><br>
+
+<br><br>
+{{#isOwner}}
+<form action="addEntertainment" method="post">
+<input type="text" placeholder="Add a Part E Attraction!" name="entertainmentName"/>
+<select name="entertainmentType">
+
+    <option value="Band">Band</option>
+
+    <option value="Inflatable">Inflatable</option>
+
+    <option value="Zorbs">Zorbs</option>
+
+    <option value="Paint Ball">Paint Ball</option>
+
+    <option value="Catering">Catering</option>
+
+    <option value="Sky Diving">Sky Diving</option>
+
+    <option value="Drifting">Drifting</option>
+
+    <option value="Speed Golfing">Speed Golfing</option>
+
+    <option value="Free Climbing">Free Climbing</option>
+
+    <option value="Other">Other</option>
+</select>
+<input type="number" placeholder="$ Price" name="entertainmentPrice"/>
+
+<button type="submit">Submit</button>
+</form>
+{{/isOwner}}
+
+
+
+{{#entertainment}}
+{{name}} {{type}} with -{{#user}}{{name}}{{/user}}-  ${{price}}  <a href="edit?id={{id}} ">Edit</a> <br><br>
+{{/entertainment}}
+
+</body>
+</html>
