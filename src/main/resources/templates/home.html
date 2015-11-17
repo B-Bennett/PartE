@@ -32,6 +32,17 @@
     <button type="submit">Search</button>
 </form>
 <br><br>
+<a href="/">All</a>
+<a href="/?type=Band">Band</a>
+<a href="/?type=Inflatable">Inflatable</a>
+<a href="/?type=Zorbs">Zorbs</a>
+<a href="/?type=Paint Ball">Paint Ball</a>
+<a href="/?type=Catering">Catering</a>
+<a href="/?type=Sky Diving">Sky Diving</a>
+<a href="/?type=Drifting">Drifting</a>
+<a href="/?type=Golf">Golf</a>
+<a href="/?type=Climbing">Climbing</a>
+<a href="/?type=Other">Other</a>
 
 <br><br>
 {{#isOwner}}
@@ -53,9 +64,9 @@
 
     <option value="Drifting">Drifting</option>
 
-    <option value="Speed Golfing">Speed Golfing</option>
+    <option value="Golf">Golf</option>
 
-    <option value="Free Climbing">Free Climbing</option>
+    <option value="Climbing">Climbing</option>
 
     <option value="Other">Other</option>
 </select>
@@ -70,6 +81,9 @@
 {{#entertainment}}
 {{name}} {{type}} with -{{#user}}{{name}}{{/user}}-  ${{price}}  <a href="edit?id={{id}} ">Edit</a> <br><br>
 {{/entertainment}}
-
+<br><br>
+{{#showNext}}
+<a href="/?page={{nextPage}}{{#type}}&type={{.}}{{/type}}">Next</a>
+{{/showNext}}
 </body>
 </html>

@@ -1,9 +1,12 @@
 package com.theironyard;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -35,30 +38,41 @@ public class PartEController {
 
     @RequestMapping("/")
     public String home(HttpSession session, Model model,
-                       String type, Integer price, String search,
-                       String showMine) {
+                       String type, Integer price, String entertainmentName,
+                       String showMine, @RequestParam(defaultValue = "0") int page) {
+
+        PageRequest pr = new PageRequest(page, 5);
+        Page p;
 
         String username = (String) session.getAttribute("username");//you have to cast (String)... //It should read the username from the session and add it to the model
         if (username ==null) {
             return "login";
         }
-        if (showMine != null) {
-            model.addAttribute("entertainment", users.findOneByName(username).entertainments);
-        }
-        else if (search != null) {
-            model.addAttribute("entertainment", entertainments.searchByName(search));
-        }
-        else if (type != null && price != null) {
-            model.addAttribute("entertainment", entertainments.findByTypeAndPrice(type, price));
+        if (entertainmentName != null) {
+           // model.addAttribute("entertainment", users.findOneByName(username).entertainments);
+            p = entertainments.findByName(pr, entertainmentName);
+            model.addAttribute("entertainmentName", entertainmentName);
         }
         else if (type != null) {
-            model.addAttribute("entertainment", entertainments.findByTypeOrderByNameAsc(type));
+           // model.addAttribute("entertainment", entertainments.searchByName(search));
+            p = entertainments.findByType(pr, type);
+            model.addAttribute("type", type);
+        }
+        else if (price != null) {
+            //model.addAttribute("entertainment", entertainments.findByTypeAndPrice(type, price));
+            p = entertainments.findByPrice(pr, price);
+            model.addAttribute("price", price);
         }
         else {
-            model.addAttribute("entertainment", entertainments.findAll());
+            //model.addAttribute("entertainment", entertainments.findAll());
+            p = entertainments.findAll(pr);
         }
         User user = users.findOneByName(username);
         model.addAttribute("isOwner", user.isOwner);
+
+        model.addAttribute("nextPage", page+1);
+        model.addAttribute("showNext", p.hasNext());
+
         return "home";
     }
 
@@ -116,7 +130,7 @@ public class PartEController {
     }
 
     @RequestMapping("/deleteEntertainment")
-    public String deleteEntertainment(Integer id) {
+    public String deleteEntertainment(int id) {
         entertainments.delete(id);
 
         return "redirect:/";
@@ -136,7 +150,7 @@ public class PartEController {
 
 
     @RequestMapping("/login")
-    public String login(String username, String password, Boolean isOwner ,HttpServletRequest request) throws Exception {
+    public String login(String username, String password,HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
 
